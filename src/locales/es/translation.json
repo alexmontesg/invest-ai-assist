@@ -1,3 +1,18 @@
 {
-  "welcome": "Bienvenido"
+  "welcome": "Bienvenido",
+  "orders": {
+    "view": {
+      "title": "Órdenes",
+      "empty": "No hay órdenes disponibles"
+    },
+    "order": {
+      "title": {
+        "buy": "Orden de compra de {{asset}} el {{date}}",
+        "sell": "Orden de venta de {{asset}} el {{date}}"
+      },
+      "amount": "Cantidad",
+      "price": "Precio",
+      "total": "Total"
+    }
+  }
 }

@@ -1,3 +1,18 @@
 {
-  "welcome": "Welcome"
+  "welcome": "Welcome",
+  "orders": {
+    "view": {
+      "title": "Orders",
+      "empty": "No orders available"
+    },
+    "order": {
+      "title": {
+        "buy": "Buy order for {{asset}} on {{date}}",
+        "sell": "Sell order for {{asset}} on {{date}}"
+      },
+      "amount": "Amount",
+      "price": "Price",
+      "total": "Total"
+    }
+  }
 }

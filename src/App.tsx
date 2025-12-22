@@ -1,6 +1,11 @@
+import OrdersView from '@/orders/components/OrdersView';
+import orders from '@/orders/mocks/orders';
+
 function App() {
   return (
-    <p>Hello World</p>
+    <>
+      <OrdersView orders={orders} />
+    </>
   );
 }
 
