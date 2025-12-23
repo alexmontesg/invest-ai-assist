@@ -1,4 +1,6 @@
 import { useTranslation } from 'react-i18next';
+import { Box, Container, Flex, Heading, VStack } from '@chakra-ui/react';
+
 import type { Order as OrderType } from '@/orders/types/order';
 import Order from '@/orders/components/Order';
 
@@ -10,16 +12,22 @@ export default function OrdersView({ orders }: { orders?: Array<OrderType> }) {
   const { t } = useTranslation('translation', { keyPrefix: 'orders.view' });
 
   return (
-    <main className="Orders">
-      <header className="Orders-header">
-        <h1>{t('title')}</h1>
-      </header>
-      <section className="Orders-content">
-        {hasOrders(orders) &&
-          orders!.map((order) => <Order key={order.id} order={order} />)}
+    <Container as="main">
+      <VStack align="stretch" mb={8}>
+        <Heading as="h1">{t('title')}</Heading>
 
-        {!hasOrders(orders) && <p>{t('empty')}</p>}
-      </section>
-    </main>
+        <Box>
+          {hasOrders(orders) ? (
+            <Flex direction="column" gap={4}>
+              {orders!.map((order) => (
+                <Order key={order.id} order={order} />
+              ))}
+            </Flex>
+          ) : (
+            <p>{t('empty')}</p>
+          )}
+        </Box>
+      </VStack>
+    </Container>
   );
 }
