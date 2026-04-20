@@ -6,7 +6,7 @@ import { useStock } from '../hooks/useStock';
 export default function StocksView() {
   const { t } = useTranslation('translation', { keyPrefix: 'stocks.view' });
   const [query, setQuery] = useState('');
-  const { stock, getStock, clearStock } = useStock();
+  const { stock, getStock, clearStock } = useStock({ query });
 
   const onStockChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
     const input = evt.target.value;
