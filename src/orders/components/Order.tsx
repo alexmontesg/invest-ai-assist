@@ -1,29 +1,15 @@
-import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, DataList, LocaleProvider } from '@chakra-ui/react';
 
 import type { Order } from '@/orders/types/order';
-import type { Money } from '@/domain/money';
 import OrderFieldValue from '@/orders/components/OrderFieldValue';
-
-type NumberField = { key: string; value: number; style: 'number' };
-type CurrencyField = { key: string; value: Money; style: 'currency' };
-type Field = NumberField | CurrencyField;
+import { useOrder } from '@/orders/hooks/useOrder';
 
 export default function Order({ order }: { order: Order }) {
   const { t, i18n } = useTranslation('translation', {
     keyPrefix: 'orders.order',
   });
-  const totalMoney = useMemo(
-    () => order.price.multiply(order.amount),
-    [order.price, order.amount],
-  );
-
-  const orderData: Array<Field> = [
-    { key: 'amount', value: order.amount, style: 'number' },
-    { key: 'price', value: order.price, style: 'currency' },
-    { key: 'total', value: totalMoney, style: 'currency' },
-  ];
+  const { orderData } = useOrder({ order });
 
   return (
     <Card.Root>
