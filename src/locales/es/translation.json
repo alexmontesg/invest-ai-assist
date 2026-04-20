@@ -14,5 +14,23 @@
       "price": "Precio",
       "total": "Total"
     }
+  },
+
+  "stocks": {
+    "view": {
+      "form": {
+        "title": "Busca una acción",
+        "subtitle": "Introduce el ticker de la acción",
+        "submit": {
+          "label": "Buscar"
+        },
+        "stock": {
+          "label": "Acción"
+        }
+      },
+      "stock": {
+        "price": "El precio de {{ticker}} es {{price}}"
+      }
+    }
   }
 }

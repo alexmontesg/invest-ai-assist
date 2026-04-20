@@ -14,5 +14,23 @@
       "price": "Price",
       "total": "Total"
     }
+  },
+
+  "stocks": {
+    "view": {
+      "form": {
+        "title": "Search a stock",
+        "subtitle": "Enter the stock ticker",
+        "submit": {
+          "label": "Search"
+        },
+        "stock": {
+          "label": "Stock"
+        }
+      },
+      "stock": {
+        "price": "{{ticker}}'s price is {{price}}"
+      }
+    }
   }
 }

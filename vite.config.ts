@@ -8,4 +8,13 @@ export default defineConfig({
   resolve: {
     alias: [{ find: '@', replacement: resolve(__dirname, 'src') }],
   },
+  server: {
+    proxy: {
+      '/findata': {
+        target: 'https://financialdata.net',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/findata/, ''),
+      },
+    },
+  },
 });
