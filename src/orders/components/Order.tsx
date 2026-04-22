@@ -1,15 +1,44 @@
+import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, DataList, LocaleProvider } from '@chakra-ui/react';
 
+import type { Money } from '@/domain/money';
 import type { Order } from '@/orders/types/order';
 import OrderFieldValue from '@/orders/components/OrderFieldValue';
 import { useOrder } from '@/orders/hooks/useOrder';
 
-export default function Order({ order }: { order: Order }) {
+function OrderRow({
+  label,
+  value,
+  style,
+  locale,
+}: {
+  label: string;
+  value: number | Money;
+  style: 'number' | 'currency';
+  locale: string;
+}) {
+  return (
+    <DataList.Item>
+      <DataList.ItemLabel>{label}</DataList.ItemLabel>
+      <DataList.ItemValue>
+        <LocaleProvider locale={locale}>
+          <OrderFieldValue value={value} style={style} />
+        </LocaleProvider>
+      </DataList.ItemValue>
+    </DataList.Item>
+  );
+}
+
+const OrderRowMemo = memo(OrderRow);
+
+function Order({ order }: { order: Order }) {
   const { t, i18n } = useTranslation('translation', {
     keyPrefix: 'orders.order',
   });
   const { orderData } = useOrder({ order });
+
+  const locale = i18n.language;
 
   return (
     <Card.Root>
@@ -19,17 +48,18 @@ export default function Order({ order }: { order: Order }) {
       <Card.Body>
         <DataList.Root orientation="horizontal">
           {orderData.map(({ key, value, style }) => (
-            <DataList.Item key={key}>
-              <DataList.ItemLabel>{t(key)}</DataList.ItemLabel>
-              <DataList.ItemValue>
-                <LocaleProvider locale={i18n.language}>
-                  <OrderFieldValue value={value} style={style} />
-                </LocaleProvider>
-              </DataList.ItemValue>
-            </DataList.Item>
+            <OrderRowMemo
+              key={key}
+              label={key}
+              value={value}
+              style={style}
+              locale={locale}
+            />
           ))}
         </DataList.Root>
       </Card.Body>
     </Card.Root>
   );
 }
+
+export default memo(Order);

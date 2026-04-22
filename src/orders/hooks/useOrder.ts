@@ -8,16 +8,18 @@ type CurrencyField = { key: string; value: Money; style: 'currency' };
 type Field = NumberField | CurrencyField;
 
 export function useOrder({ order }: { order: Order }) {
-  const totalMoney = useMemo(
-    () => order.price.multiply(order.amount),
+  const orderData = useMemo<Array<Field>>(
+    () => [
+      { key: 'amount', value: order.amount, style: 'number' },
+      { key: 'price', value: order.price, style: 'currency' },
+      {
+        key: 'total',
+        value: order.price.multiply(order.amount),
+        style: 'currency',
+      },
+    ],
     [order.price, order.amount],
   );
-
-  const orderData: Array<Field> = [
-    { key: 'amount', value: order.amount, style: 'number' },
-    { key: 'price', value: order.price, style: 'currency' },
-    { key: 'total', value: totalMoney, style: 'currency' },
-  ];
 
   return { orderData };
 }
