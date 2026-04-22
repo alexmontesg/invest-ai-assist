@@ -20,6 +20,11 @@ Vite + React SPA. Entry point: `src/main.tsx` → `src/App.tsx`.
 - Strict TypeScript; `noUnusedLocals` and `noUnusedParameters` enabled
 - ESLint enforces single quotes + trailing commas
 
+## Delegation Rules
+
+- **Commit messages**: Always use task tool with `subagent_type: commit-message-writer` — do not generate commit messages manually
+- **Complex multi-step tasks**: Use task tool with `subagent_type: project-orchestrator`
+
 ## Skills
 
 Load before writing React code:
