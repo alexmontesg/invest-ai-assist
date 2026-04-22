@@ -1,16 +1,26 @@
-# Agent Skills Index
+# Invest AI Assist
 
-When working on this project, load the relevant skill(s) BEFORE writing any code.
+Vite + React SPA. Entry point: `src/main.tsx` → `src/App.tsx`.
 
-## How to Use
+## Commands
 
-1. Check the trigger column to find skills that match your current task
-2. Load the skill by reading the AGENTS.md file at the listed path
-3. Follow ALL patterns and rules from the loaded skill
-4. Multiple skills can apply simultaneously
+| Command | Action |
+| ------- | ------ |
+| `yarn dev` | Start dev server (port not configured, default Vite) |
+| `yarn build` | Typecheck (`tsc -b`) then build (`vite build`) |
+| `yarn lint` | Run ESLint |
+| `yarn preview` | Preview production build |
+
+**No test script exists.**
+
+## Development Notes
+
+- Path alias `@/` maps to `src/`
+- Proxy: `/findata/*` → `https://financialdata.net` (requires `.env` API key)
+- Strict TypeScript; `noUnusedLocals` and `noUnusedParameters` enabled
+- ESLint enforces single quotes + trailing commas
 
 ## Skills
 
-| Skill                         | Trigger                                                        | Path                                                                                                           |
-| ----------------------------- | -------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
-| `vercel-react-best-practices` | When writing or refactoring react code, follow best practices. | [`.agents/skills/vercel-react-best-practices/AGENTS.md`](.agents/skills/vercel-react-best-practices/AGENTS.md) |
+Load before writing React code:
+- `vercel-react-best-practices` — https://opencode.ai/skills/vercel-react-best-practices
