@@ -35,6 +35,10 @@ export class Money {
     return new Money(value, currencyCode, scale);
   }
 
+  static fromJson(obj: Money): Money {
+    return Money.fromUnit(obj.amount, obj.currencyCode, obj.scale);
+  }
+
   /**
    * Get the ISO 4217 currency code.
    */

@@ -1,11 +1,13 @@
 import { useTranslation } from 'react-i18next';
 import { Box, Container, Flex, Heading, VStack } from '@chakra-ui/react';
 
-import type { Order as OrderType } from '@/orders/types/order';
 import Order from '@/orders/components/Order';
+import OrderForm from '@/orders/components/OrderForm';
+import useOrders from '@/orders/hooks/useOrders';
 
-export default function OrdersView({ orders }: { orders?: Array<OrderType> }) {
+export default function OrdersView() {
   const { t } = useTranslation('translation', { keyPrefix: 'orders.view' });
+  const { orders, addOrder } = useOrders();
 
   return (
     <Container as="main">
@@ -23,6 +25,10 @@ export default function OrdersView({ orders }: { orders?: Array<OrderType> }) {
             <p>{t('empty')}</p>
           )}
         </Box>
+      </VStack>
+
+      <VStack align="stretch" mb={8}>
+        <OrderForm addOrder={addOrder} />
       </VStack>
     </Container>
   );
