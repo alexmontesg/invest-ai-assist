@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { useState, useTransition } from 'react';
-import { Container, Field, Fieldset, Input, Stack } from '@chakra-ui/react';
+import { Field, Fieldset, Input, Stack } from '@chakra-ui/react';
 import { useStock } from '../hooks/useStock';
 
 export default function StocksView() {
@@ -20,7 +20,7 @@ export default function StocksView() {
   };
 
   return (
-    <Container as="main">
+    <>
       <Fieldset.Root>
         <Stack>
           <Fieldset.Legend>{t('form.title')}</Fieldset.Legend>
@@ -43,6 +43,6 @@ export default function StocksView() {
       {stock ? (
         <p>{t('stock.price', { price: stock.price, ticker: stock.asset })}</p>
       ) : null}
-    </Container>
+    </>
   );
 }
