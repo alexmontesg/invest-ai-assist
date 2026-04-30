@@ -2,8 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 import { Provider } from '@/framework/chakra/provider';
 
 import Header from '@/ui/components/Header';
-import OrdersView from '@views/Orders';
-import StocksView from '@views/Stocks';
+import routes from '@/router/routes';
 import { CurrencyProvider } from '@/context/currency/provider';
 
 function App() {
@@ -12,8 +11,9 @@ function App() {
       <CurrencyProvider>
         <Header />
         <Routes>
-          <Route path="/" element={<OrdersView />} />
-          <Route path="/stocks" element={<StocksView />} />
+          {routes.map((r) => (
+            <Route key={r.path} {...r} />
+          ))}
         </Routes>
       </CurrencyProvider>
     </Provider>
