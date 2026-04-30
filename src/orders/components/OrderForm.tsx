@@ -44,7 +44,7 @@ export default function OrderForm({
         <Fieldset.Legend>{t('title')}</Fieldset.Legend>
         <Fieldset.Content>
           <RadioCard.Root defaultValue={orderTypes[0]} name="type">
-            <RadioCard.Label>{t('type')}</RadioCard.Label>
+            <RadioCard.Label>{t('type.label')}</RadioCard.Label>
             <HStack align="stretch">
               {orderTypes.map((item) => (
                 <RadioCard.Item key={item} value={item}>

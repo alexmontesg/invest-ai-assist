@@ -1,5 +1,9 @@
 {
   "welcome": "Welcome",
+  "menu": {
+    "orders": "Orders",
+    "stocks": "Stocks"
+  },
   "orders": {
     "view": {
       "title": "Orders",
@@ -13,9 +17,28 @@
       "amount": "Amount",
       "price": "Price",
       "total": "Total"
+    },
+    "form": {
+      "title": "Create Order",
+      "type": {
+        "label": "Order Type",
+        "buy": "Buy",
+        "sell": "Sell"
+      },
+      "asset": "Asset",
+      "amount": "Amount",
+      "submit": "Submit Order"
     }
   },
-
+  "watchlist": {
+    "button": {
+      "remove": "Remove {{asset}}",
+      "add": "Add Asset"
+    },
+    "new": {
+      "asset": "New Asset"
+    }
+  },
   "stocks": {
     "view": {
       "form": {

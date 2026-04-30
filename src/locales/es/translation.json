@@ -1,5 +1,9 @@
 {
   "welcome": "Bienvenido",
+  "menu": {
+    "orders": "Órdenes",
+    "stocks": "Acciones"
+  },
   "orders": {
     "view": {
       "title": "Órdenes",
@@ -13,9 +17,28 @@
       "amount": "Cantidad",
       "price": "Precio",
       "total": "Total"
+    },
+    "form": {
+      "title": "Crear Orden",
+      "type": {
+        "label": "Tipo de Orden",
+        "buy": "Compra",
+        "sell": "Venta"
+      },
+      "asset": "Activo",
+      "amount": "Cantidad",
+      "submit": "Enviar Orden"
     }
   },
-
+  "watchlist": {
+    "button": {
+      "remove": "Eliminar {{asset}}",
+      "add": "Agregar Activo"
+    },
+    "new": {
+      "asset": "Nuevo Activo"
+    }
+  },
   "stocks": {
     "view": {
       "form": {
