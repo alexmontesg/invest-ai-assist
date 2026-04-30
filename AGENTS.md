@@ -22,10 +22,15 @@ Vite + React SPA. Entry point: `src/main.tsx` → `src/App.tsx`.
 
 ## Delegation Rules
 
-- **Commit messages**: Always use task tool with `subagent_type: commit-message-writer` — do not generate commit messages manually
+- **Skills**: When user requests a skill (e.g. `/commit`, "use git-commit skill"), delegate to a subagent via task tool with the appropriate `subagent_type` — the subagent loads and uses the skill, the main agent never uses skills directly
+- **Commit messages**: Use task tool with `subagent_type: commit-message-writer` — do not generate commit messages manually
 - **Complex multi-step tasks**: Use task tool with `subagent_type: project-orchestrator`
 
 ## Skills
 
 Load before writing React code:
 - `vercel-react-best-practices` — https://opencode.ai/skills/vercel-react-best-practices
+
+When user requests a skill, delegate to subagent — never load/use skills in main agent:
+- `git-commit` — Conventional commit with message generation (subagent_type: `commit-message-writer`)
+- `find-skills` — Discover and install agent skills (subagent loads this skill)
