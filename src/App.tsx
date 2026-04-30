@@ -12,7 +12,7 @@ function App() {
         <Header />
         <Routes>
           {routes.map((r) => (
-            <Route key={r.path} {...r} />
+            <Route key={r.id} {...r} />
           ))}
         </Routes>
       </CurrencyProvider>

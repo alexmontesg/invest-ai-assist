@@ -1,7 +1,8 @@
 import { useCallback, useContext } from 'react';
-import { Flex, NativeSelect } from '@chakra-ui/react';
+import { Container, Flex, NativeSelect } from '@chakra-ui/react';
 
 import { CurrencyContext } from '@/context/currency/context';
+import Navbar from '@/ui/components/Navbar';
 
 export default function Header() {
   const { allowedCurrencies, updateCurrency } = useContext(CurrencyContext);
@@ -14,8 +15,10 @@ export default function Header() {
   );
 
   return (
-    <header>
+    <Container as="header" py="5" mb="3">
       <Flex>
+        <Navbar />
+
         <NativeSelect.Root
           marginInlineStart="auto"
           maxW={{ base: '100%', md: '200px' }}
@@ -30,6 +33,6 @@ export default function Header() {
           <NativeSelect.Indicator />
         </NativeSelect.Root>
       </Flex>
-    </header>
+    </Container>
   );
 }
