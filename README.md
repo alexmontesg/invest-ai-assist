@@ -1,5 +1,7 @@
 # Invest AI Assist
 
+![Coverage](https://codecov.io/gh/alexmontesg/invest-ai-assist/branch/main/graph/badge.svg)
+
 An open-source AI investing assistant that evaluates a user’s risk tolerance, financial situation, and existing portfolio to provide personalized monthly investment recommendations. Designed to support long-term decision-making with clear, structured guidance
 
 ## License
