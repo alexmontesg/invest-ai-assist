@@ -9,7 +9,7 @@ export default function AssetList({ assets }: { assets: Array<string> }) {
   const { handleRemove } = useWatchlist();
 
   return (
-    <List.Root variant="plain">
+    <List.Root variant="plain" aria-label="watchlist-assets">
       {assets.map((asset) => (
         <List.Item key={asset} mb="4">
           <Flex gap="6" align="center" width="100%" justify="space-between">

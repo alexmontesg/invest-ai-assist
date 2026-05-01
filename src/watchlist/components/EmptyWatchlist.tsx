@@ -6,7 +6,7 @@ export default function EmptyWatchlist() {
   const { t } = useTranslation('translation', { keyPrefix: 'watchlist' });
 
   return (
-    <EmptyState.Root>
+    <EmptyState.Root role="status" aria-label="empty-watchlist">
       <EmptyState.Content>
         <EmptyState.Indicator>
           <AiOutlineStock />
