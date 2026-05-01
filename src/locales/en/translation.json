@@ -37,6 +37,10 @@
     },
     "new": {
       "asset": "New Asset"
+    },
+    "empty": {
+      "title": "Your watchlist is empty",
+      "description": "Add assets to start tracking them"
     }
   },
   "stocks": {

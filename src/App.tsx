@@ -5,7 +5,7 @@ import { Provider as ReduxProvider } from 'react-redux';
 import Header from '@/ui/components/Header';
 import routes from '@/router/routes';
 import { CurrencyProvider } from '@/context/currency/provider';
-import Watchlist from '@/watchlist/components/watchlist';
+import Watchlist from '@/watchlist/components/Watchlist';
 import { store } from '@/store/store';
 
 function App() {

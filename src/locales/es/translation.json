@@ -37,6 +37,10 @@
     },
     "new": {
       "asset": "Nuevo Activo"
+    },
+    "empty": {
+      "title": "Tu lista de seguimiento está vacía",
+      "description": "Agrega activos para comenzar a rastrearlos"
     }
   },
   "stocks": {
