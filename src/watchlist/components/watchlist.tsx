@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   Container,
   Field,
@@ -11,21 +12,14 @@ import {
   Stack,
 } from '@chakra-ui/react';
 import { CiSquarePlus, CiTrash } from 'react-icons/ci';
-import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
-import type { RootState } from '@/store/store';
-import { addAsset, removeAsset } from '@/watchlist/slices/watchlist';
-import { useState } from 'react';
+import useWatchlist from '@/watchlist/hooks/useWatchlist';
 
 export default function Watchlist() {
-  const dispatch = useDispatch();
-  const assets = useSelector((state: RootState) => state.watchlist.assets);
   const { t } = useTranslation('translation', { keyPrefix: 'watchlist' });
   const [newAsset, setNewAsset] = useState('');
-
-  const handleRemove = (asset: string) => dispatch(removeAsset(asset));
-  const handleAdd = () => dispatch(addAsset(newAsset));
+  const { assets, handleAdd, handleRemove } = useWatchlist();
 
   return (
     <Container as="aside" maxW="96">
@@ -67,7 +61,7 @@ export default function Watchlist() {
           </Fieldset.Root>
 
           <IconButton
-            onClick={() => handleAdd()}
+            onClick={() => handleAdd(newAsset)}
             alignSelf="end"
             size="md"
             colorPalette="green"

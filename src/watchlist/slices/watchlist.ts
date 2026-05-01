@@ -39,9 +39,13 @@ const watchlistSlice = createSlice({
     clearWatchlist: (state) => {
       state.assets = [];
     },
+    hydrateWatchlist: (state, action: PayloadAction<string[]>) => {
+      state.assets = action.payload;
+    },
   },
 });
 
-export const { addAsset, removeAsset, clearWatchlist } = watchlistSlice.actions;
+export const { addAsset, removeAsset, clearWatchlist, hydrateWatchlist } =
+  watchlistSlice.actions;
 
 export default watchlistSlice.reducer;

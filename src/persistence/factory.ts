@@ -21,7 +21,7 @@ const STORAGES: StorageConstructors = {
 type StorageType = keyof typeof STORAGES;
 
 export class StorageFactory {
-  static create<K extends keyof StorageConfigMap, T>(
+  static create<T, K extends keyof StorageConfigMap>(
     type: StorageType,
     config: StorageConfigMap[K],
   ): StorageAdapter<T> {
