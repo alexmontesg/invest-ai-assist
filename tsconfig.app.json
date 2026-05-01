@@ -11,7 +11,7 @@
       "@": ["src"],
       "@views/*": ["src/views/*"]
     },
-    "types": ["vite/client"],
+    "types": ["vite/client", "vitest/globals"],
     "skipLibCheck": true,
 
     /* Bundler mode */
