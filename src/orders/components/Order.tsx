@@ -7,7 +7,7 @@ import type { Order } from '@/orders/types/order';
 import OrderFieldValue from '@/orders/components/OrderFieldValue';
 import FavouriteMarker from '@/orders/components/FavouriteMarker';
 import { useOrder } from '@/orders/hooks/useOrder';
-import { isOnWatchlistSelector } from '@/watchlist/slices/selector';
+import { isOnWatchlistSelector } from '@/watchlist/state/selector';
 import { useSelector } from 'react-redux';
 
 function OrderRow({

@@ -1,10 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import watchlistReducer from '@/watchlist/slices/watchlist';
-import { watchlistPersistenceMiddleware } from '@/watchlist/slices/middleware';
+import watchlistReducer from '@/watchlist/state/watchlist';
+import { watchlistPersistenceMiddleware } from '@/watchlist/state/middleware';
 
-import ordersReducer from '@/orders/slices/orders';
-import { ordersPersistenceMiddleware } from '@/orders/slices/middleware';
+import ordersReducer from '@/orders/state/orders';
+import { ordersPersistenceMiddleware } from '@/orders/state/middleware';
 
 export const store = configureStore({
   reducer: {

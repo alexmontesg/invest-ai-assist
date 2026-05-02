@@ -3,7 +3,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import type { ReactNode } from 'react';
 import { ChakraProvider, defaultSystem } from '@chakra-ui/react';
 
-import watchlistReducer from '@/watchlist/slices/watchlist';
+import watchlistReducer from '@/watchlist/state/watchlist';
 
 type PreloadedState = {
   watchlist?: {

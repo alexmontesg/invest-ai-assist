@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 
-import { addAsset, removeAsset } from '@/watchlist/slices/watchlist';
+import { addAsset, removeAsset } from '@/watchlist/state/watchlist';
 import type { RootState } from '@/store/store';
 
 export default function useWatchlist() {
