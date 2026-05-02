@@ -35,8 +35,17 @@ export class Money {
     return new Money(value, currencyCode, scale);
   }
 
+  // TODO Improve serialization-deserialization
   static fromJson(obj: Money): Money {
     return Money.fromUnit(obj.amount, obj.currencyCode, obj.scale);
+  }
+
+  toJson() {
+    return {
+      value: this.amount,
+      currencyCode: this.currency,
+      scale: this.scale,
+    };
   }
 
   /**

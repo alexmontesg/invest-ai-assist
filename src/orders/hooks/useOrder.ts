@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import type { Money } from '@/domain/money';
+import { Money } from '@/domain/money';
 import type { Order } from '@/orders/types/order';
 
 type NumberField = { key: string; value: number; style: 'number' };
@@ -14,7 +14,7 @@ export function useOrder({ order }: { order: Order }) {
       { key: 'price', value: order.price, style: 'currency' },
       {
         key: 'total',
-        value: order.price.multiply(order.amount),
+        value: Money.fromJson(order.price).multiply(order.amount),
         style: 'currency',
       },
     ],

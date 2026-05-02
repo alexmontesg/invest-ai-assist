@@ -1,5 +1,5 @@
 import { FormatNumber } from '@chakra-ui/react';
-import type { Money } from '@/domain/money';
+import { Money } from '@/domain/money';
 
 type Props = {
   value: number | Money;
@@ -11,7 +11,7 @@ export default function OrderFieldValue({ value, style }: Props) {
     return <FormatNumber value={value as number} />;
   }
 
-  const money = value as Money;
+  const money = Money.fromJson(value as Money);
   return (
     <FormatNumber
       value={money.amount}

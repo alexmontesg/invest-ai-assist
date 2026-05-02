@@ -3,16 +3,16 @@ import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import App from '@/App.tsx';
 import '@/i18n.ts';
-import { hydrateWatchlist } from '@/watchlist/slices/watchlist';
-import { watchlistStorage } from '@/watchlist/persistence/storage';
 import { store } from '@/store/store';
+import { bootstrapWatchlist } from '@/watchlist/slices/bootstrap';
+import { bootstrapOrders } from '@/orders/slices/bootstrap';
 
 async function bootstrap() {
-  const saved = await watchlistStorage.get();
-
-  if (saved) {
-    store.dispatch(hydrateWatchlist(saved));
-  }
+  // TODO: Not scalable, bootstrap things as needed
+  await Promise.all([
+    bootstrapWatchlist(store.dispatch),
+    bootstrapOrders(store.dispatch),
+  ]);
 
   createRoot(document.getElementById('root')!).render(
     <StrictMode>
