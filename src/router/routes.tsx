@@ -15,4 +15,4 @@ export default [
     id: 'stocks',
     element: <StocksView />,
   },
-] as Array<RouteProps & { id: 'string'; path: 'string' }>;
+] as Array<RouteProps & { id: string; path: string }>;
