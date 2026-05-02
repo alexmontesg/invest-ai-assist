@@ -1,46 +1,67 @@
 import { Provider } from 'react-redux';
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import type { ReactNode } from 'react';
 import { ChakraProvider, defaultSystem } from '@chakra-ui/react';
 import { CurrencyProvider } from '@/context/currency/provider';
+import { render as tlRender, type RenderResult } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 import ordersReducer from '@/orders/state/orders';
+import watchlistReducer from '@/watchlist/state/watchlist';
 import type { Order } from '@/orders/types/order';
 
-export function createWrapper(preloadedState?: {
-  orders: { orders: Order[] };
-}) {
-  const store = configureStore({
-    reducer: {
-      orders: ordersReducer,
-    },
-    preloadedState,
-  });
-
-  const Wrapper = ({ children }: { children: ReactNode }) => (
-    <Provider store={store}>
-      <ChakraProvider value={defaultSystem}>
-        <CurrencyProvider>{children}</CurrencyProvider>
-      </ChakraProvider>
-    </Provider>
-  );
-
-  return Wrapper;
+// Define state types
+export interface OrdersState {
+  orders: Order[];
 }
 
-export function renderWithStore(
-  _ui: ReactNode,
-  preloadedState?: { orders: { orders: Order[] } },
-) {
+export interface WatchlistState {
+  assets: string[];
+}
+
+export interface TestStoreState {
+  orders: OrdersState;
+  watchlist: WatchlistState;
+}
+
+// Create typed combined reducer
+const rootReducer = combineReducers({
+  orders: ordersReducer,
+  watchlist: watchlistReducer,
+});
+
+type Store = ReturnType<typeof rootReducer>;
+
+// Default initial states
+const initialOrdersState: OrdersState = { orders: [] };
+const initialWatchlistState: WatchlistState = { assets: [] };
+
+export interface RenderWithProvidersOptions {
+  preloadedState?: Partial<TestStoreState>;
+}
+
+export interface RenderWithProvidersResult extends RenderResult {
+  store: ReturnType<typeof configureStore>;
+  user: ReturnType<typeof userEvent.setup>;
+}
+
+export function renderWithProviders(
+  ui: ReactNode,
+  options?: RenderWithProvidersOptions,
+): RenderWithProvidersResult {
+  const { preloadedState } = options || {};
+
   const store = configureStore({
-    reducer: {
-      orders: ordersReducer,
-    },
-    preloadedState,
+    reducer: rootReducer,
+    preloadedState: {
+      orders: preloadedState?.orders ?? initialOrdersState,
+      watchlist: preloadedState?.watchlist ?? initialWatchlistState,
+    } as Store,
   });
 
-  return {
-    store,
+  const user = userEvent.setup();
+
+  const renderResult = tlRender(ui, {
     wrapper: ({ children }: { children: ReactNode }) => (
       <Provider store={store}>
         <ChakraProvider value={defaultSystem}>
@@ -48,5 +69,11 @@ export function renderWithStore(
         </ChakraProvider>
       </Provider>
     ),
+  });
+
+  return {
+    ...renderResult,
+    store,
+    user,
   };
 }
