@@ -62,7 +62,8 @@
         }
       },
       "stock": {
-        "price": "{{ticker}}'s price is {{price}}"
+        "price": "{{ticker}}'s price is {{price}}",
+        "error": "Error fetching {{ticker}}'s price"
       }
     }
   }

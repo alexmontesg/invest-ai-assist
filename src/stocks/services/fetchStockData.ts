@@ -3,13 +3,16 @@ import { Money } from '@/domain/money';
 import type { Stock } from '@/stocks/types/stock';
 
 export async function fetchStockData({ ticker }: { ticker: string }) {
-  const res = await fetch(
-    `/findata/api/v1/stock-prices?identifier=${ticker.toUpperCase()}&key=${API_KEY}`,
-  );
-  const json = await res.json();
-  if (!json[0]) throw new Error('Stock not found');
-
-  return { stock: mapToStockData(json[0]) };
+  try {
+    const res = await fetch(
+      `/findata/api/v1/stock-prices?identifier=${ticker.toUpperCase()}&key=${API_KEY}`,
+    );
+    const json = await res.json();
+    if (!json[0]) throw new Error('Stock not found');
+    return { stock: mapToStockData(json[0]) };
+  } catch (err) {
+    throw new Error('Error retrieving stock data', { cause: err });
+  }
 }
 
 function mapToStockData(apiResponse: {

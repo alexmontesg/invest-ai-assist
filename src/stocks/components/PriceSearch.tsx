@@ -1,13 +1,13 @@
 import { useTranslation } from 'react-i18next';
 import { useState, useTransition } from 'react';
-import { Field, Fieldset, Input, Stack } from '@chakra-ui/react';
+import { Alert, Field, Fieldset, Input, Stack, VStack } from '@chakra-ui/react';
 import { useStock } from '../hooks/useStock';
 
 export default function StocksView() {
   const { t } = useTranslation('translation', { keyPrefix: 'stocks.view' });
   const [query, setQuery] = useState('');
   const [, startTransition] = useTransition();
-  const { stock, getStock, clearStock } = useStock({ query });
+  const { stock, error, getStock, clearStock } = useStock({ query });
 
   const onStockChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
     const input = evt.target.value;
@@ -20,7 +20,13 @@ export default function StocksView() {
   };
 
   return (
-    <>
+    <VStack gap="8">
+      {error ? (
+        <Alert.Root status="error">
+          <Alert.Indicator />
+          <Alert.Title>{t(error, { ticker: query })}</Alert.Title>
+        </Alert.Root>
+      ) : null}
       <Fieldset.Root>
         <Stack>
           <Fieldset.Legend>{t('form.title')}</Fieldset.Legend>
@@ -43,6 +49,6 @@ export default function StocksView() {
       {stock ? (
         <p>{t('stock.price', { price: stock.price, ticker: stock.asset })}</p>
       ) : null}
-    </>
+    </VStack>
   );
 }
