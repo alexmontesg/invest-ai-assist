@@ -16,7 +16,7 @@ import Watchlist from '@/watchlist/components/Watchlist';
 
 export default function OrdersView() {
   const { t } = useTranslation('translation', { keyPrefix: 'orders.view' });
-  const { orders, addOrder } = useOrders();
+  const { orders } = useOrders();
 
   return (
     <Container>
@@ -27,7 +27,7 @@ export default function OrdersView() {
       <Grid templateColumns="3fr 1fr">
         <GridItem as="main">
           <VStack align="stretch" mb="12">
-            <OrderForm addOrder={addOrder} />
+            <OrderForm />
           </VStack>
 
           <VStack align="stretch" mb="12">

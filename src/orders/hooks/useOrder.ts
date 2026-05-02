@@ -1,10 +1,10 @@
 import { useMemo } from 'react';
 
-import { Money } from '@/domain/money';
+import { Money, type SerializedMoney } from '@/domain/money';
 import type { Order } from '@/orders/types/order';
 
 type NumberField = { key: string; value: number; style: 'number' };
-type CurrencyField = { key: string; value: Money; style: 'currency' };
+type CurrencyField = { key: string; value: SerializedMoney; style: 'currency' };
 type Field = NumberField | CurrencyField;
 
 export function useOrder({ order }: { order: Order }) {
@@ -14,7 +14,7 @@ export function useOrder({ order }: { order: Order }) {
       { key: 'price', value: order.price, style: 'currency' },
       {
         key: 'total',
-        value: Money.fromJson(order.price).multiply(order.amount),
+        value: Money.fromJson(order.price).multiply(order.amount).toJSON(),
         style: 'currency',
       },
     ],

@@ -1,4 +1,9 @@
 import Currency from 'currency.js';
+export type SerializedMoney = {
+  value: number;
+  scale: number;
+  currencyCode: string;
+};
 
 export class Money {
   private value: Currency;
@@ -36,11 +41,11 @@ export class Money {
   }
 
   // TODO Improve serialization-deserialization
-  static fromJson(obj: Money): Money {
-    return Money.fromUnit(obj.amount, obj.currencyCode, obj.scale);
+  static fromJson(obj: SerializedMoney): Money {
+    return Money.fromUnit(obj.value, obj.currencyCode, obj.scale);
   }
 
-  toJson() {
+  toJSON() {
     return {
       value: this.amount,
       currencyCode: this.currency,

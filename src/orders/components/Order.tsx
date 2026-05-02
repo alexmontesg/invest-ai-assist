@@ -1,14 +1,17 @@
-import { memo } from 'react';
+import { memo, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Card, DataList, LocaleProvider } from '@chakra-ui/react';
+import { Button, Card, DataList, LocaleProvider } from '@chakra-ui/react';
+import { CiTrash, CiRepeat } from 'react-icons/ci';
+import { useSelector } from 'react-redux';
 
-import type { Money } from '@/domain/money';
+import { Money, type SerializedMoney } from '@/domain/money';
+import { isOnWatchlistSelector } from '@/watchlist/state/selector';
 import type { Order } from '@/orders/types/order';
 import OrderFieldValue from '@/orders/components/OrderFieldValue';
 import FavouriteMarker from '@/orders/components/FavouriteMarker';
 import { useOrder } from '@/orders/hooks/useOrder';
-import { isOnWatchlistSelector } from '@/watchlist/state/selector';
-import { useSelector } from 'react-redux';
+import useOrders from '@/orders/hooks/useOrders';
+import { CurrencyContext } from '@/context/currency/context';
 
 function OrderRow({
   label,
@@ -17,7 +20,7 @@ function OrderRow({
   locale,
 }: {
   label: string;
-  value: number | Money;
+  value: number | SerializedMoney;
   style: 'number' | 'currency';
   locale: string;
 }) {
@@ -39,9 +42,19 @@ function Order({ order }: { order: Order }) {
   const { t, i18n } = useTranslation('translation', {
     keyPrefix: 'orders.order',
   });
-
+  const { selectedCurrency } = useContext(CurrencyContext);
   const { orderData } = useOrder({ order });
+  const { addOrder, removeOrder } = useOrders();
   const isOnWatchlist = useSelector(isOnWatchlistSelector(order.asset));
+
+  const repeatOrder = () => {
+    addOrder({
+      ...order,
+      id: crypto.randomUUID(),
+      price: Money.fromUnit(100, selectedCurrency).toJSON(), // TODO check actual price
+      date: new Date().toISOString(),
+    });
+  };
 
   return (
     <Card.Root>
@@ -62,6 +75,29 @@ function Order({ order }: { order: Order }) {
           ))}
         </DataList.Root>
       </Card.Body>
+
+      <Card.Footer justifyContent="end" gap="4">
+        <Button
+          variant="subtle"
+          colorPalette="green"
+          flex="1"
+          maxW="48"
+          onClick={repeatOrder}
+        >
+          <CiRepeat />
+          Repeat
+        </Button>
+        <Button
+          variant="subtle"
+          colorPalette="red"
+          flex="1"
+          maxW="48"
+          onClick={() => removeOrder(order.id)}
+        >
+          <CiTrash />
+          Remove
+        </Button>
+      </Card.Footer>
     </Card.Root>
   );
 }

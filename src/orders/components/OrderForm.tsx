@@ -1,5 +1,5 @@
+import { useContext, type FormEvent } from 'react';
 import { useTranslation } from 'react-i18next';
-import type React from 'react';
 import {
   Field,
   Fieldset,
@@ -9,22 +9,20 @@ import {
   NumberInput,
   Button,
 } from '@chakra-ui/react';
-import type { OrderType, Order } from '@/orders/types/order';
+
 import { Money } from '@/domain/money';
-import { useContext } from 'react';
 import { CurrencyContext } from '@/context/currency/context';
+import type { OrderType } from '@/orders/types/order';
+import useOrders from '@/orders/hooks/useOrders';
 
 const orderTypes: Array<OrderType> = ['buy', 'sell'];
 
-export default function OrderForm({
-  addOrder,
-}: {
-  addOrder: (order: Order) => void;
-}) {
+export default function OrderForm() {
   const { t } = useTranslation('translation', { keyPrefix: 'orders.form' });
   const { selectedCurrency } = useContext(CurrencyContext);
+  const { addOrder } = useOrders();
 
-  const handleSubmit = (evt: React.FormEvent) => {
+  const handleSubmit = (evt: FormEvent) => {
     evt.preventDefault();
     const formData = new FormData(evt.currentTarget as HTMLFormElement);
     const values = Object.fromEntries(formData.entries());
@@ -33,7 +31,7 @@ export default function OrderForm({
       type: values.type as OrderType,
       amount: Number(values.amount),
       asset: String(values.asset),
-      price: Money.fromUnit(100, selectedCurrency), // TODO check actual price
+      price: Money.fromUnit(100, selectedCurrency).toJSON(), // TODO check actual price
       date: new Date().toISOString(),
     });
   };

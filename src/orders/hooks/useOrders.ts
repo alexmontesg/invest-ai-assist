@@ -12,7 +12,7 @@ export default function useOrders() {
       addOrder({
         order: {
           ...order,
-          price: order.price.toJson(),
+          price: order.price,
         },
       }),
     );
