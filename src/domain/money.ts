@@ -1,19 +1,16 @@
 import Currency from 'currency.js';
 export type SerializedMoney = {
   value: number;
-  scale: number;
   currencyCode: string;
 };
 
 export class Money {
   private value: Currency;
   private currencyCode: string;
-  private scale: number;
 
-  private constructor(value: Currency, currencyCode: string, scale: number) {
+  private constructor(value: Currency, currencyCode: string) {
     this.value = value;
     this.currencyCode = currencyCode;
-    this.scale = scale;
   }
 
   /**
@@ -21,9 +18,9 @@ export class Money {
    * @param amount The amount in minor units (cents, etc.)
    * @param currencyCode ISO 4217 currency code (default: 'USD')
    */
-  static fromMinor(amount: number, currencyCode = 'USD', scale = 100): Money {
-    const value = new Currency(amount / scale, { fromCents: true });
-    return new Money(value, currencyCode, scale);
+  static fromMinor(amount: number, currencyCode = 'USD'): Money {
+    const value = new Currency(amount, { fromCents: true });
+    return new Money(value, currencyCode);
   }
 
   /**
@@ -31,25 +28,20 @@ export class Money {
    * @param amount The amount in major units
    * @param currencyCode ISO 4217 currency code (default: 'USD')
    */
-  static fromUnit(
-    amount: number | string,
-    currencyCode = 'USD',
-    scale = 100,
-  ): Money {
+  static fromUnit(amount: number | string, currencyCode = 'USD'): Money {
     const value = new Currency(amount);
-    return new Money(value, currencyCode, scale);
+    return new Money(value, currencyCode);
   }
 
   // TODO Improve serialization-deserialization
   static fromJson(obj: SerializedMoney): Money {
-    return Money.fromUnit(obj.value, obj.currencyCode, obj.scale);
+    return Money.fromUnit(obj.value, obj.currencyCode);
   }
 
   toJSON() {
     return {
       value: this.amount,
       currencyCode: this.currency,
-      scale: this.scale,
     };
   }
 
@@ -80,7 +72,7 @@ export class Money {
    */
   multiply(factor: number | string): Money {
     const result = this.value.multiply(factor as number);
-    return new Money(result, this.currencyCode, this.scale);
+    return new Money(result, this.currencyCode);
   }
 
   /**
@@ -93,7 +85,7 @@ export class Money {
       );
     }
     const result = this.value.add(other.value);
-    return new Money(result, this.currencyCode, this.scale);
+    return new Money(result, this.currencyCode);
   }
 
   /**
@@ -106,7 +98,7 @@ export class Money {
       );
     }
     const result = this.value.subtract(other.value);
-    return new Money(result, this.currencyCode, this.scale);
+    return new Money(result, this.currencyCode);
   }
 
   /**
