@@ -1,22 +1,12 @@
 import { useTranslation } from 'react-i18next';
-import {
-  Box,
-  Container,
-  Flex,
-  Grid,
-  GridItem,
-  Heading,
-  VStack,
-} from '@chakra-ui/react';
+import { Container, Grid, GridItem, Heading, VStack } from '@chakra-ui/react';
 
-import Order from '@/orders/components/Order';
 import OrderForm from '@/orders/components/OrderForm';
-import useOrders from '@/orders/hooks/useOrders';
 import Watchlist from '@/watchlist/components/Watchlist';
+import OrderList from '@/orders/components/OrderList';
 
 export default function OrdersView() {
   const { t } = useTranslation('translation', { keyPrefix: 'orders.view' });
-  const { orders } = useOrders();
 
   return (
     <Container>
@@ -34,17 +24,8 @@ export default function OrdersView() {
             <Heading as="h2" mb="4">
               {t('history.title')}
             </Heading>
-            <Box>
-              {orders?.length ? (
-                <Flex direction="column" gap={4}>
-                  {orders.map((order) => (
-                    <Order key={order.id} order={order} />
-                  ))}
-                </Flex>
-              ) : (
-                <p>{t('empty')}</p>
-              )}
-            </Box>
+
+            <OrderList />
           </VStack>
         </GridItem>
 
