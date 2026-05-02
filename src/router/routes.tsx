@@ -1,7 +1,8 @@
 import type { RouteProps } from 'react-router-dom';
+import { lazy } from 'react';
 
-import OrdersView from '@/views/Orders';
-import StocksView from '@/views/Stocks';
+const OrdersView = lazy(() => import('@/views/Orders'));
+const StocksView = lazy(() => import('@/views/Stocks'));
 
 export default [
   {
