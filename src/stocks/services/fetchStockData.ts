@@ -2,15 +2,26 @@ const API_KEY = import.meta.env.VITE_API_KEY;
 import { Money } from '@/domain/money';
 import type { Stock } from '@/stocks/types/stock';
 
-export async function fetchStockData({ ticker }: { ticker: string }) {
+export async function fetchStockData({
+  ticker,
+  signal,
+}: {
+  ticker: string;
+  signal?: AbortSignal;
+}) {
   try {
     const res = await fetch(
       `/findata/api/v1/stock-prices?identifier=${ticker.toUpperCase()}&key=${API_KEY}`,
+      { signal },
     );
     const json = await res.json();
     if (!json[0]) throw new Error('Stock not found');
     return { stock: mapToStockData(json[0]) };
   } catch (err) {
+    if (err instanceof DOMException && err.name === 'AbortError') {
+      throw err;
+    }
+
     throw new Error('Error retrieving stock data', { cause: err });
   }
 }
