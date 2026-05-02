@@ -5,7 +5,10 @@ import { Card, DataList, LocaleProvider } from '@chakra-ui/react';
 import type { Money } from '@/domain/money';
 import type { Order } from '@/orders/types/order';
 import OrderFieldValue from '@/orders/components/OrderFieldValue';
+import FavouriteMarker from '@/orders/components/FavouriteMarker';
 import { useOrder } from '@/orders/hooks/useOrder';
+import { isOnWatchlistSelector } from '@/watchlist/slices/selector';
+import { useSelector } from 'react-redux';
 
 function OrderRow({
   label,
@@ -36,13 +39,14 @@ function Order({ order }: { order: Order }) {
   const { t, i18n } = useTranslation('translation', {
     keyPrefix: 'orders.order',
   });
-  const { orderData } = useOrder({ order });
 
-  const locale = i18n.language;
+  const { orderData } = useOrder({ order });
+  const isOnWatchlist = useSelector(isOnWatchlistSelector(order.asset));
 
   return (
     <Card.Root>
       <Card.Header>
+        {isOnWatchlist ? <FavouriteMarker /> : null}
         <Card.Title>{t(`title.${order.type}`, { ...order })}</Card.Title>
       </Card.Header>
       <Card.Body>
@@ -53,7 +57,7 @@ function Order({ order }: { order: Order }) {
               label={key}
               value={value}
               style={style}
-              locale={locale}
+              locale={i18n.language}
             />
           ))}
         </DataList.Root>
