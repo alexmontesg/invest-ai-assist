@@ -8,14 +8,7 @@ export default function useOrders() {
   const dispatch = useDispatch();
   const orders = useSelector((state: RootState) => state.orders.orders);
   const handleAdd = (order: Order) => {
-    return dispatch(
-      addOrder({
-        order: {
-          ...order,
-          price: order.price,
-        },
-      }),
-    );
+    return dispatch(addOrder({ order }));
   };
   const handleRemove = (id: string) => dispatch(removeOrder({ id }));
 
