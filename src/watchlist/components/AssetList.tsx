@@ -1,12 +1,15 @@
+import { memo } from 'react';
 import { Flex, IconButton, List } from '@chakra-ui/react';
 import { CiTrash } from 'react-icons/ci';
 import { useTranslation } from 'react-i18next';
 
-import useWatchlist from '@/watchlist/hooks/useWatchlist';
+type AssetListProps = {
+  assets: Array<string>;
+  handleRemove: (asset: string) => void;
+};
 
-export default function AssetList({ assets }: { assets: Array<string> }) {
-  const { t } = useTranslation('translation', { keyPrefix: 'watchlist' });
-  const { handleRemove } = useWatchlist();
+function AssetList({ assets, handleRemove }: AssetListProps) {
+  const { t } = useTranslation('translation');
 
   return (
     <List.Root variant="plain" aria-label="watchlist-assets">
@@ -19,7 +22,7 @@ export default function AssetList({ assets }: { assets: Array<string> }) {
               alignSelf="end"
               size="md"
               colorPalette="red"
-              aria-label={t('button.remove', { asset })}
+              aria-label={t('watchlist.button.remove', { asset })}
             >
               <CiTrash />
             </IconButton>
@@ -29,3 +32,5 @@ export default function AssetList({ assets }: { assets: Array<string> }) {
     </List.Root>
   );
 }
+
+export default memo(AssetList);

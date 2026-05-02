@@ -1,14 +1,13 @@
+import { memo, useState } from 'react';
 import { Field, Fieldset, HStack, IconButton, Input } from '@chakra-ui/react';
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CiSquarePlus } from 'react-icons/ci';
 
-import useWatchlist from '@/watchlist/hooks/useWatchlist';
+type AssetInputProps = { handleAdd: (asset: string) => void };
 
-export default function AssetInput() {
+function AssetInput({ handleAdd }: AssetInputProps) {
   const { t } = useTranslation('translation', { keyPrefix: 'watchlist' });
   const [newAsset, setNewAsset] = useState('');
-  const { handleAdd } = useWatchlist();
 
   return (
     <HStack align="end" gap="6" justify="space-between">
@@ -38,3 +37,5 @@ export default function AssetInput() {
     </HStack>
   );
 }
+
+export default memo(AssetInput);

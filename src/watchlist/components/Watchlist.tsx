@@ -6,20 +6,20 @@ import AssetList from '@/watchlist/components/AssetList';
 import EmptyWatchlist from '@/watchlist/components/EmptyWatchlist';
 
 export default function Watchlist() {
-  const { assets } = useWatchlist();
+  const { assets, handleRemove, handleAdd } = useWatchlist();
 
   return (
     <Container as="aside" maxW="96">
       <Stack gap="4">
         {assets && assets.length ? (
-          <AssetList assets={assets} />
+          <AssetList assets={assets} handleRemove={handleRemove} />
         ) : (
           <EmptyWatchlist />
         )}
 
         <Separator />
 
-        <AssetInput />
+        <AssetInput handleAdd={handleAdd} />
       </Stack>
     </Container>
   );
