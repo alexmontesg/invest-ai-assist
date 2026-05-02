@@ -20,11 +20,20 @@ export default function OrdersView() {
 
   return (
     <Container>
+      <Heading as="h1" mb="8">
+        {t('title')}
+      </Heading>
+
       <Grid templateColumns="3fr 1fr">
         <GridItem as="main">
-          <VStack align="stretch" mb={8}>
-            <Heading as="h1">{t('title')}</Heading>
+          <VStack align="stretch" mb="12">
+            <OrderForm addOrder={addOrder} />
+          </VStack>
 
+          <VStack align="stretch" mb="12">
+            <Heading as="h2" mb="4">
+              {t('history.title')}
+            </Heading>
             <Box>
               {orders?.length ? (
                 <Flex direction="column" gap={4}>
@@ -36,10 +45,6 @@ export default function OrdersView() {
                 <p>{t('empty')}</p>
               )}
             </Box>
-          </VStack>
-
-          <VStack align="stretch" mb={8}>
-            <OrderForm addOrder={addOrder} />
           </VStack>
         </GridItem>
 
