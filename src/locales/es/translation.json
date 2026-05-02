@@ -7,10 +7,13 @@
   "orders": {
     "view": {
       "title": "Órdenes",
-      "empty": "No hay órdenes disponibles",
       "history": {
         "title": "Historial de órdenes"
       }
+    },
+    "empty": {
+      "title": "Tu historial de órdenes está vacío",
+      "description": "No hay órdenes disponibles"
     },
     "order": {
       "title": {

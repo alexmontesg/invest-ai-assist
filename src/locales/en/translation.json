@@ -7,10 +7,13 @@
   "orders": {
     "view": {
       "title": "Orders",
-      "empty": "No orders available",
       "history": {
         "title": "Orders history"
       }
+    },
+    "empty": {
+      "title": "Your order history is empty",
+      "description": "No orders available"
     },
     "order": {
       "title": {

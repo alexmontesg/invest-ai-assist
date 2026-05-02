@@ -1,11 +1,10 @@
 import { Box, Flex } from '@chakra-ui/react';
-import { useTranslation } from 'react-i18next';
 
 import Order from '@/orders/components/Order';
+import EmptyOrders from '@/orders/components/EmptyOrders';
 import useOrders from '@/orders/hooks/useOrders';
 
 export default function OrderList() {
-  const { t } = useTranslation('translation', { keyPrefix: 'orders.list' });
   const { orders } = useOrders();
 
   return (
@@ -17,7 +16,7 @@ export default function OrderList() {
           ))}
         </Flex>
       ) : (
-        <p>{t('empty')}</p>
+        <EmptyOrders />
       )}
     </Box>
   );
