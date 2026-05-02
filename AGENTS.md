@@ -31,6 +31,10 @@ Vite + React SPA. Entry point: `src/main.tsx` → `src/App.tsx`.
 Load before writing React code:
 - `vercel-react-best-practices` — https://opencode.ai/skills/vercel-react-best-practices
 
+Load before writing tests:
+- `react-testing-library` — React Testing Library with user-centric testing patterns (subagent_type: `react-test-writer`)
+
 When user requests a skill, delegate to subagent — never load/use skills in main agent:
 - `git-commit` — Conventional commit with message generation (subagent_type: `commit-message-writer`)
 - `find-skills` — Discover and install agent skills (subagent loads this skill)
+- `react-testing-library` — Write component tests with RTL queries, user-event, async utilities (subagent_type: `react-test-writer`)

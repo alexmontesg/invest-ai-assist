@@ -7,6 +7,12 @@
       "skillPath": "skills/git-commit/SKILL.md",
       "computedHash": "2607fc60629b82b257136dd2a7a373f0a4466c0b49df7746d845d59313c99b21"
     },
+    "react-testing-library": {
+      "source": "itechmeat/llm-code",
+      "sourceType": "github",
+      "skillPath": "skills/react-testing-library/SKILL.md",
+      "computedHash": "643bb2bffa527953f48bcd54fba4ff5666f7b2b0bdd40f158441510412bbe232"
+    },
     "vercel-react-best-practices": {
       "source": "vercel-labs/agent-skills",
       "sourceType": "github",
