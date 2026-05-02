@@ -75,4 +75,27 @@ describe('money', () => {
       expect(money1.equals(money2)).toBeFalsy();
     });
   });
+
+  describe('error handling', () => {
+    it('fails when trying to add money with different currencies', () => {
+      const money1 = Money.fromUnit(100);
+      const money2 = Money.fromUnit(50, 'EUR');
+
+      expect(() => money1.add(money2)).toThrow();
+    });
+
+    it('fails when trying to subtract money with different currencies', () => {
+      const money1 = Money.fromUnit(100);
+      const money2 = Money.fromUnit(50, 'EUR');
+
+      expect(() => money1.subtract(money2)).toThrow();
+    });
+
+    it('fails when trying to compare money with different currencies', () => {
+      const money1 = Money.fromUnit(100);
+      const money2 = Money.fromUnit(50, 'EUR');
+
+      expect(() => money1.compare(money2)).toThrow();
+    });
+  });
 });
