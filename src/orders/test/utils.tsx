@@ -3,7 +3,11 @@ import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import type { ReactNode } from 'react';
 import { ChakraProvider, defaultSystem } from '@chakra-ui/react';
 import { CurrencyProvider } from '@/context/currency/provider';
-import { render as tlRender, type RenderResult } from '@testing-library/react';
+import {
+  render as tlRender,
+  act,
+  type RenderResult,
+} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import ordersReducer from '@/orders/state/orders';
@@ -61,18 +65,22 @@ export function renderWithProviders(
 
   const user = userEvent.setup();
 
-  const renderResult = tlRender(ui, {
-    wrapper: ({ children }: { children: ReactNode }) => (
-      <Provider store={store}>
-        <ChakraProvider value={defaultSystem}>
-          <CurrencyProvider>{children}</CurrencyProvider>
-        </ChakraProvider>
-      </Provider>
-    ),
+  let renderResult: RenderResult;
+
+  act(() => {
+    renderResult = tlRender(ui, {
+      wrapper: ({ children }: { children: ReactNode }) => (
+        <Provider store={store}>
+          <ChakraProvider value={defaultSystem}>
+            <CurrencyProvider>{children}</CurrencyProvider>
+          </ChakraProvider>
+        </Provider>
+      ),
+    });
   });
 
   return {
-    ...renderResult,
+    ...renderResult!,
     store,
     user,
   };

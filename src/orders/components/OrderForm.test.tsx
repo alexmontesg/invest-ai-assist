@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
@@ -43,26 +43,31 @@ describe('OrderForm', () => {
   });
 
   describe('Rendering', () => {
-    it('should render the order form with all fields', () => {
+    it('should render the order form with all fields', async () => {
       renderWithProviders(<OrderForm />);
 
-      expect(screen.getByText('Create Order')).toBeInTheDocument();
-      expect(screen.getByRole('radio', { name: /buy/i })).toBeInTheDocument();
-      expect(screen.getByRole('radio', { name: /sell/i })).toBeInTheDocument();
-      expect(screen.getByLabelText(/asset/i)).toBeInTheDocument();
-      expect(
-        screen.getByRole('spinbutton', { name: /amount/i }),
-      ).toBeInTheDocument();
-      expect(
-        screen.getByRole('button', { name: /submit order/i }),
-      ).toBeInTheDocument();
+      await waitFor(() => {
+        expect(screen.getByText('Create Order')).toBeInTheDocument();
+        expect(screen.getByRole('radio', { name: /buy/i })).toBeInTheDocument();
+        expect(
+          screen.getByRole('radio', { name: /sell/i }),
+        ).toBeInTheDocument();
+        expect(screen.getByLabelText(/asset/i)).toBeInTheDocument();
+        expect(
+          screen.getByRole('spinbutton', { name: /amount/i }),
+        ).toBeInTheDocument();
+        expect(
+          screen.getByRole('button', { name: /submit order/i }),
+        ).toBeInTheDocument();
+      });
     });
 
-    it('should have buy selected by default', () => {
+    it('should have buy selected by default', async () => {
       renderWithProviders(<OrderForm />);
 
-      const buyRadio = screen.getByRole('radio', { name: /buy/i });
-      expect(buyRadio).toBeChecked();
+      await waitFor(() => {
+        expect(screen.getByRole('radio', { name: /buy/i })).toBeChecked();
+      });
     });
   });
 

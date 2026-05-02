@@ -5,12 +5,6 @@ import { ChakraProvider, defaultSystem } from '@chakra-ui/react';
 
 import watchlistReducer from '@/watchlist/state/watchlist';
 
-type PreloadedState = {
-  watchlist?: {
-    assets: string[];
-  };
-};
-
 export function createWrapper() {
   const store = configureStore({
     reducer: {
