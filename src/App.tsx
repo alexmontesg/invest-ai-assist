@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { Provider as ChakraProvider } from '@/framework/chakra/provider';
 import { Provider as ReduxProvider } from 'react-redux';
@@ -13,11 +14,13 @@ function App() {
       <ReduxProvider store={store}>
         <CurrencyProvider>
           <Header />
-          <Routes>
-            {routes.map((r) => (
-              <Route key={r.id} {...r} />
-            ))}
-          </Routes>
+          <Suspense>
+            <Routes>
+              {routes.map((r) => (
+                <Route key={r.id} {...r} />
+              ))}
+            </Routes>
+          </Suspense>
         </CurrencyProvider>
       </ReduxProvider>
     </ChakraProvider>
