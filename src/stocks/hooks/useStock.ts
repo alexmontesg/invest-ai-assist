@@ -1,57 +1,29 @@
-import { useCallback, useState, useRef, useEffect } from 'react';
-import { useDebouncedCallback } from 'use-debounce';
+import { useCallback, useEffect, useState } from 'react';
+import { useDebounce } from 'use-debounce';
+import { useQuery } from '@tanstack/react-query';
+
 import type { Stock } from '@/stocks/types/stock';
 import { fetchStockData } from '@/stocks/services/fetchStockData';
 
 export function useStock({ query }: { query: string }) {
   const [stock, setStock] = useState<Stock | null>(null);
-  const [error, setError] = useState<string>('');
-  const abortControllerRef = useRef<AbortController | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [debouncedQuery] = useDebounce(query, 500);
+
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['stock', debouncedQuery],
+    queryFn: ({ signal }) => fetchStockData({ ticker: debouncedQuery, signal }),
+    enabled: !!debouncedQuery,
+    retry: false,
+  });
 
   useEffect(() => {
-    return () => {
-      if (abortControllerRef.current) {
-        abortControllerRef.current.abort();
-      }
-    };
-  }, []);
+    setStock(data?.stock || null);
+  }, [data]);
 
-  const previousQuery = useRef(query);
-
-  const debouncedSearch = useDebouncedCallback(async (q) => {
-    setError('');
-    setStock(null);
-
-    if (previousQuery.current === q) return;
-    if (abortControllerRef.current) {
-      abortControllerRef.current.abort();
-    }
-
-    const controller = new AbortController();
-    abortControllerRef.current = controller;
-    previousQuery.current = q;
-    try {
-      const { stock } = await fetchStockData({
-        ticker: q,
-        signal: controller.signal,
-      });
-      if (!stock) return;
-
-      setStock(stock);
-    } catch (err) {
-      // Ignore aborted requests
-      if (err instanceof DOMException && err.name === 'AbortError') return;
-
-      console.error(err);
-      setError('stock.error');
-    } finally {
-      if (abortControllerRef.current === controller) {
-        abortControllerRef.current = null;
-      }
-    }
-  }, 500);
-
+  setError(isError ? 'stock.error' : null);
   const clearStock = useCallback(() => setStock(null), []);
+  const clearError = useCallback(() => setError(null), []);
 
-  return { stock, error, getStock: debouncedSearch, clearStock };
+  return { stock, isLoading, error, isError, clearStock, clearError };
 }

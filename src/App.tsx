@@ -1,29 +1,22 @@
 import { Suspense } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { Provider as ChakraProvider } from '@/framework/chakra/provider';
-import { Provider as ReduxProvider } from 'react-redux';
 
 import Header from '@/ui/components/Header';
 import routes from '@/router/routes';
-import { CurrencyProvider } from '@/context/currency/provider';
-import { store } from '@/store/store';
+import AppProviders from '@/AppProviders';
 
 function App() {
   return (
-    <ChakraProvider>
-      <ReduxProvider store={store}>
-        <CurrencyProvider>
-          <Header />
-          <Suspense>
-            <Routes>
-              {routes.map((r) => (
-                <Route key={r.id} {...r} />
-              ))}
-            </Routes>
-          </Suspense>
-        </CurrencyProvider>
-      </ReduxProvider>
-    </ChakraProvider>
+    <AppProviders>
+      <Header />
+      <Suspense>
+        <Routes>
+          {routes.map((r) => (
+            <Route key={r.id} {...r} />
+          ))}
+        </Routes>
+      </Suspense>
+    </AppProviders>
   );
 }
 

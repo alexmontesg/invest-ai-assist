@@ -1,4 +1,3 @@
-const API_KEY = import.meta.env.VITE_API_KEY;
 import { Money } from '@/domain/money';
 import type { Stock } from '@/stocks/types/stock';
 
@@ -11,7 +10,7 @@ export async function fetchStockData({
 }) {
   try {
     const res = await fetch(
-      `/findata/api/v1/stock-prices?identifier=${ticker.toUpperCase()}&key=${API_KEY}`,
+      `/findata/api/v1/stock-prices?identifier=${ticker.toUpperCase()}`,
       { signal },
     );
     const json = await res.json();
