@@ -4,6 +4,13 @@
     "orders": "Órdenes",
     "stocks": "Acciones"
   },
+  "error": {
+    "view": {
+      "button": "Reintentar",
+      "description": "Ocurrió un error",
+      "title": "Ups"
+    }
+  },
   "orders": {
     "view": {
       "title": "Órdenes",

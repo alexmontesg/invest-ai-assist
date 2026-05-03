@@ -4,6 +4,13 @@
     "orders": "Orders",
     "stocks": "Stocks"
   },
+  "error": {
+    "view": {
+      "button": "Try again",
+      "description": "Something went wrong",
+      "title": "Oops"
+    }
+  },
   "orders": {
     "view": {
       "title": "Orders",

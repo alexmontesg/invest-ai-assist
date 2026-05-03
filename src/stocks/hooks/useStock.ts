@@ -21,7 +21,10 @@ export function useStock({ query }: { query: string }) {
     setStock(data?.stock || null);
   }, [data]);
 
-  setError(isError ? 'stock.error' : null);
+  useEffect(() => {
+    setError(isError ? 'stock.error' : null);
+  }, [isError]);
+
   const clearStock = useCallback(() => setStock(null), []);
   const clearError = useCallback(() => setError(null), []);
 
