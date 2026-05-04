@@ -10,14 +10,20 @@ export function getFormSchema({ t }: { t: TFunction }) {
       error: t('type.invalid'),
     }),
     amount: z.number({ error: t('amount.invalid') }).min(1, t('amount.min')),
-    asset: z.string().min(1, { message: 'asset.required' }),
+    asset: z.string().min(1, { message: t('asset.required') }),
   });
 }
 
-export function getDefaultValues() {
+type AddOrderFormValues = {
+  type: OrderType;
+  amount: number | null;
+  asset: string;
+};
+
+export function getDefaultValues(): AddOrderFormValues {
   return {
     type: orderTypes[0],
-    amount: 0,
+    amount: null,
     asset: '',
   };
 }

@@ -125,11 +125,15 @@ export default function OrderForm() {
                     w="100%"
                     min={0}
                     name="amount"
-                    value={String(field.state.value ?? '')}
+                    value={
+                      field.state.value == null ? '' : String(field.state.value)
+                    }
                     onValueChange={(details) => {
                       const val = details.valueAsNumber;
                       if (!Number.isNaN(val)) {
-                        field.handleChange(val); // string → number
+                        field.handleChange(val);
+                      } else {
+                        field.handleChange(null);
                       }
                     }}
                   >

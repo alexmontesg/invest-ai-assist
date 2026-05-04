@@ -24,12 +24,19 @@ i18n.use(initReactI18next).init({
         orders: {
           form: {
             title: 'Create Order',
-            'type.label': 'Order Type',
-            'type.buy': 'Buy',
-            'type.sell': 'Sell',
+            type: {
+              label: 'Order Type',
+              buy: 'Buy',
+              sell: 'Sell',
+            },
             asset: 'Asset',
             amount: 'Amount',
             submit: 'Submit Order',
+            errors: {
+              'amount.invalid': 'Amount is invalid',
+              'amount.min': 'Amount must be at least 1',
+              'asset.required': 'Asset is required',
+            },
           },
         },
       },
@@ -106,10 +113,28 @@ describe('OrderForm', () => {
 
       const amountInput = screen.getByRole('spinbutton', { name: /amount/i });
       await user.type(amountInput, '10');
-      expect(amountInput).toHaveValue('10');
 
+      // Wait for the form state to update after typing
+      await waitFor(() => {
+        expect(amountInput).toHaveValue('10');
+      });
+
+      // Clear the input - user.clear() selects all text and deletes it
+      // For NumberInput, we need to ensure the clear propagates to the form
       await user.clear(amountInput);
-      expect((amountInput as HTMLInputElement).value).toBe('');
+
+      // Wait for any state updates to propagate
+      // Note: NumberInput with TanStack Form may not clear properly
+      // because onValueChange only handles non-NaN values
+      await waitFor(
+        () => {
+          // The input value should be empty after clear
+          // Use queryByValue or check the DOM directly since the form
+          // might not update the controlled value
+          expect((amountInput as HTMLInputElement).value).toBe('');
+        },
+        { timeout: 3000 },
+      );
     });
   });
 
@@ -222,11 +247,14 @@ describe('OrderForm', () => {
   });
 
   describe('Form Validation', () => {
-    it('should submit with minimal valid data (asset only)', async () => {
+    it('should submit with valid data', async () => {
       const { user, store } = renderWithProviders(<OrderForm />);
 
       const assetInput = screen.getByRole('textbox', { name: /asset/i });
+      const amountInput = screen.getByRole('spinbutton', { name: /amount/i });
+
       await user.type(assetInput, 'BTC');
+      await user.type(amountInput, '5');
 
       const submitButton = screen.getByRole('button', {
         name: /submit order/i,
@@ -236,9 +264,10 @@ describe('OrderForm', () => {
       const state = store.getState() as TestStoreState;
       expect(state.orders.orders).toHaveLength(1);
       expect(state.orders.orders[0].asset).toBe('BTC');
+      expect(state.orders.orders[0].amount).toBe(5);
     });
 
-    it('should handle empty asset field', async () => {
+    it('should show validation error for empty asset field', async () => {
       const { user, store } = renderWithProviders(<OrderForm />);
 
       const submitButton = screen.getByRole('button', {
@@ -246,9 +275,14 @@ describe('OrderForm', () => {
       });
       await user.click(submitButton);
 
+      // Should show validation error for required asset field
+      await waitFor(() => {
+        expect(screen.getByText('Asset is required')).toBeInTheDocument();
+      });
+
+      // Order should not be submitted
       const state = store.getState() as TestStoreState;
-      expect(state.orders.orders).toHaveLength(1);
-      expect(state.orders.orders[0].asset).toBe('');
+      expect(state.orders.orders).toHaveLength(0);
     });
   });
 });
