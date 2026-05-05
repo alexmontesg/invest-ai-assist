@@ -1,7 +1,8 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi, type Mock } from 'vitest';
 import { screen } from '@testing-library/react';
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
+import { useQuery } from '@tanstack/react-query';
 
 import OrderList from './OrderList';
 import { renderWithProviders, type TestStoreState } from '@/orders/test/utils';
@@ -32,6 +33,15 @@ i18n.use(initReactI18next).init({
   },
 });
 
+vi.mock('@tanstack/react-query', async () => {
+  const actual = await vi.importActual('@tanstack/react-query');
+
+  return {
+    ...actual,
+    useQuery: vi.fn(),
+  };
+});
+
 // Helper to create test orders
 function createTestOrder(
   id: string,
@@ -49,7 +59,14 @@ function createTestOrder(
 }
 
 describe('OrderList', () => {
+  afterEach(() => {
+    (useQuery as Mock).mockReset();
+  });
+
   it('should display empty state when no orders exist', () => {
+    (useQuery as Mock).mockReturnValue({
+      isLoading: false,
+    });
     renderWithProviders(<OrderList />);
 
     expect(
@@ -58,6 +75,9 @@ describe('OrderList', () => {
   });
 
   it('should display a single order', () => {
+    (useQuery as Mock).mockReturnValue({
+      isLoading: false,
+    });
     const preloadedState: Partial<TestStoreState> = {
       orders: {
         orders: [createTestOrder('test-id-1', 'BTC')],
@@ -70,6 +90,9 @@ describe('OrderList', () => {
   });
 
   it('should display multiple orders', () => {
+    (useQuery as Mock).mockReturnValue({
+      isLoading: false,
+    });
     const preloadedState: Partial<TestStoreState> = {
       orders: {
         orders: [
@@ -86,6 +109,10 @@ describe('OrderList', () => {
   });
 
   it('should display order details correctly', () => {
+    (useQuery as Mock).mockReturnValue({
+      isLoading: false,
+    });
+
     const preloadedState: Partial<TestStoreState> = {
       orders: {
         orders: [
@@ -109,5 +136,17 @@ describe('OrderList', () => {
 
     expect(screen.getByText(/Buy order for AAPL/i)).toBeInTheDocument();
     expect(screen.getByText('5')).toBeInTheDocument();
+  });
+
+  it('should be busy while loading', () => {
+    (useQuery as Mock).mockReturnValue({
+      isLoading: true,
+    });
+    renderWithProviders(<OrderList />);
+
+    expect(screen.getByLabelText(/orders/i)).toHaveAttribute(
+      'aria-busy',
+      'true',
+    );
   });
 });
