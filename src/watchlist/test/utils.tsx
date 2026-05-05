@@ -4,6 +4,7 @@ import type { ReactNode } from 'react';
 import { ChakraProvider, defaultSystem } from '@chakra-ui/react';
 
 import watchlistReducer from '@/watchlist/state/watchlist';
+import { render } from '@testing-library/react';
 
 export function createWrapper() {
   const store = configureStore({
@@ -20,7 +21,7 @@ export function createWrapper() {
 }
 
 export function renderWithStore(
-  _ui: ReactNode,
+  ui: ReactNode,
   preloadedState?: { watchlist: { assets: string[] } },
 ) {
   const store = configureStore({
@@ -30,12 +31,11 @@ export function renderWithStore(
     preloadedState,
   });
 
-  return {
-    store,
+  return render(ui, {
     wrapper: ({ children }: { children: ReactNode }) => (
       <Provider store={store}>
         <ChakraProvider value={defaultSystem}>{children}</ChakraProvider>
       </Provider>
     ),
-  };
+  });
 }
