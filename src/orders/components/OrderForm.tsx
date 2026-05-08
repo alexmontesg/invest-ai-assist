@@ -51,7 +51,7 @@ export default function OrderForm() {
       <Fieldset.Root>
         <Fieldset.Legend>{t('title')}</Fieldset.Legend>
         <Fieldset.Content mb="6">
-          <Grid templateColumns={{ base: '1f', md: '1fr 1fr' }} gap="6">
+          <Grid templateColumns={{ base: '1fr', md: '1fr 1fr' }} gap="6">
             <form.Field
               name="type"
               validators={{

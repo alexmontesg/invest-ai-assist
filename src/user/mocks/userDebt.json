@@ -1,0 +1,35 @@
+{
+  "items": [
+    {
+      "id": "1",
+      "givenName": "Mortgage",
+      "total": {
+        "value": 175000,
+        "currencyCode": "EUR"
+      },
+      "outstanding": {
+        "value": 150000,
+        "currencyCode": "EUR"
+      },
+      "interestRate": 0.03,
+      "totalTerm": 360,
+      "remainingTerm": 336
+    },
+
+    {
+      "id": "2",
+      "givenName": "Car Loan",
+      "total": {
+        "value": 20000,
+        "currencyCode": "EUR"
+      },
+      "outstanding": {
+        "value": 12000,
+        "currencyCode": "EUR"
+      },
+      "interestRate": 0.05,
+      "totalTerm": 120,
+      "remainingTerm": 96
+    }
+  ]
+}
