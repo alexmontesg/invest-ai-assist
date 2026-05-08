@@ -2,6 +2,7 @@
   "welcome": "Bienvenido",
   "menu": {
     "orders": "Órdenes",
+    "user": "Usuario",
     "stocks": "Acciones"
   },
   "error": {
@@ -72,6 +73,16 @@
         "price": "El precio de {{ticker}} es {{price}}",
         "error": "Error buscando el precio de {{ticker}}"
       }
+    }
+  },
+  "user": {
+    "debt": {
+      "outstanding": "Pendiente",
+      "term": "Plazo",
+      "interest": "Tasa de interés"
+    },
+    "view": {
+      "title": "Usuario"
     }
   }
 }

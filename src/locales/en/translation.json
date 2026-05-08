@@ -2,6 +2,7 @@
   "welcome": "Welcome",
   "menu": {
     "orders": "Orders",
+    "user": "User",
     "stocks": "Stocks"
   },
   "error": {
@@ -72,6 +73,16 @@
         "price": "{{ticker}}'s price is {{price}}",
         "error": "Error fetching {{ticker}}'s price"
       }
+    }
+  },
+  "user": {
+    "debt": {
+      "outstanding": "Outstanding",
+      "term": "Remaining Term",
+      "interest": "Interest Rate"
+    },
+    "view": {
+      "title": "User"
     }
   }
 }

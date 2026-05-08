@@ -1,5 +1,15 @@
 import { memo } from 'react';
-import { AbsoluteCenter, Card, HStack, ProgressCircle } from '@chakra-ui/react';
+import { useTranslation } from 'react-i18next';
+import {
+  AbsoluteCenter,
+  Card,
+  DataList,
+  Flex,
+  FormatNumber,
+  HStack,
+  LocaleProvider,
+  ProgressCircle,
+} from '@chakra-ui/react';
 
 import type { DebtItem } from '@/user/types/user';
 
@@ -9,6 +19,9 @@ type DebtItemProps = {
 
 function UserDebtItem({ item }: DebtItemProps) {
   const percentagePaid = (1 - item.outstanding.value / item.total.value) * 100;
+  const { t, i18n } = useTranslation('translation', {
+    keyPrefix: 'user.debt',
+  });
 
   return (
     <Card.Root w="100%">
@@ -16,7 +29,7 @@ function UserDebtItem({ item }: DebtItemProps) {
         <Card.Title>{item.givenName}</Card.Title>
       </Card.Header>
       <Card.Body>
-        <HStack>
+        <HStack gap={8}>
           <ProgressCircle.Root size="xl" value={percentagePaid}>
             <ProgressCircle.Circle>
               <ProgressCircle.Track />
@@ -26,6 +39,51 @@ function UserDebtItem({ item }: DebtItemProps) {
               <ProgressCircle.ValueText fontSize="xs" />
             </AbsoluteCenter>
           </ProgressCircle.Root>
+
+          <DataList.Root orientation="horizontal">
+            <DataList.Item>
+              <DataList.ItemLabel>{t('outstanding')}</DataList.ItemLabel>
+              <DataList.ItemValue>
+                <LocaleProvider locale={i18n.language}>
+                  <Flex>
+                    <FormatNumber
+                      value={item.outstanding.value}
+                      style="currency"
+                      currency={item.outstanding.currencyCode}
+                    />{' '}
+                    /{' '}
+                    <FormatNumber
+                      value={item.total.value}
+                      style="currency"
+                      currency={item.total.currencyCode}
+                    />
+                  </Flex>
+                </LocaleProvider>
+              </DataList.ItemValue>
+            </DataList.Item>
+
+            <DataList.Item>
+              <DataList.ItemLabel>{t('term')}</DataList.ItemLabel>
+              <DataList.ItemValue>
+                <Flex>
+                  <FormatNumber value={item.remainingTerm} /> /{' '}
+                  <FormatNumber
+                    value={item.totalTerm}
+                    style="unit"
+                    unit="month"
+                    unitDisplay="long"
+                  />
+                </Flex>
+              </DataList.ItemValue>
+            </DataList.Item>
+
+            <DataList.Item>
+              <DataList.ItemLabel>{t('interest')}</DataList.ItemLabel>
+              <DataList.ItemValue>
+                <FormatNumber value={item.interestRate} style="percent" />
+              </DataList.ItemValue>
+            </DataList.Item>
+          </DataList.Root>
         </HStack>
       </Card.Body>
     </Card.Root>

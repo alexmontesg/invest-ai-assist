@@ -3,7 +3,7 @@ import { Container, List } from '@chakra-ui/react';
 
 import userDebt from '@/user/mocks/userDebt.json';
 import type { UserDebt } from '@/user/types/user';
-import UserDebtItem from './UserDebtItem';
+import UserDebtItem from '@/user/components/UserDebtItem';
 
 function UserDebt() {
   const [debt] = useState<UserDebt>(userDebt);
