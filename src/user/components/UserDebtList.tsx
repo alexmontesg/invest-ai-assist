@@ -2,10 +2,11 @@ import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   AbsoluteCenter,
-  Card,
+  Accordion,
   DataList,
   Flex,
   FormatNumber,
+  Heading,
   HStack,
   ProgressCircle,
 } from '@chakra-ui/react';
@@ -16,6 +17,10 @@ type DebtItemProps = {
   item: DebtItem;
 };
 
+type DebtListProps = {
+  items: Array<DebtItem>;
+};
+
 function UserDebtItem({ item }: DebtItemProps) {
   const percentagePaid = (1 - item.outstanding.value / item.total.value) * 100;
   const { t } = useTranslation('translation', {
@@ -23,11 +28,14 @@ function UserDebtItem({ item }: DebtItemProps) {
   });
 
   return (
-    <Card.Root w="100%">
-      <Card.Header>
-        <Card.Title>{item.givenName}</Card.Title>
-      </Card.Header>
-      <Card.Body>
+    <>
+      <Accordion.ItemTrigger>
+        <Heading as="h3" flex="1" cursor="pointer">
+          {item.givenName}
+        </Heading>
+        <Accordion.ItemIndicator />
+      </Accordion.ItemTrigger>
+      <Accordion.ItemContent py={8}>
         <HStack gap={8}>
           <ProgressCircle.Root size="xl" value={percentagePaid}>
             <ProgressCircle.Circle>
@@ -86,9 +94,23 @@ function UserDebtItem({ item }: DebtItemProps) {
             </DataList.Item>
           </DataList.Root>
         </HStack>
-      </Card.Body>
-    </Card.Root>
+      </Accordion.ItemContent>
+    </>
   );
 }
 
-export default memo(UserDebtItem);
+function UserDebtList({ items }: DebtListProps) {
+  return (
+    <Accordion.Root multiple>
+      {items.map((item) => {
+        return (
+          <Accordion.Item key={item.id} value={item.id}>
+            <UserDebtItem item={item} />
+          </Accordion.Item>
+        );
+      })}
+    </Accordion.Root>
+  );
+}
+
+export default memo(UserDebtList);

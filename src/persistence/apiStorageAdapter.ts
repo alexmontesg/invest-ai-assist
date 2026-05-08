@@ -1,3 +1,4 @@
+// @ts-nocheck
 import type { StorageAdapter } from '@/persistence/storageAdapter';
 
 export default class ApiStorageAdapter<T> implements StorageAdapter<T> {

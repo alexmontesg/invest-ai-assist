@@ -3,7 +3,6 @@ import {
   DataList,
   FormatNumber,
   Heading,
-  List,
   LocaleProvider,
   VStack,
 } from '@chakra-ui/react';
@@ -11,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 
 import userDebt from '@/user/mocks/userDebt.json';
 import type { UserDebt } from '@/user/types/user';
-import UserDebtItem from '@/user/components/UserDebtItem';
+import UserDebtList from '@/user/components/UserDebtList';
 import { Money } from '@/domain/money';
 
 function UserDebt() {
@@ -59,15 +58,7 @@ function UserDebt() {
             </DataList.ItemValue>
           </DataList.Item>
         </DataList.Root>
-        <List.Root variant="plain" gap={8}>
-          {debt.items.map((item) => {
-            return (
-              <List.Item key={item.id}>
-                <UserDebtItem item={item} />
-              </List.Item>
-            );
-          })}
-        </List.Root>
+        <UserDebtList items={debt.items} />
       </LocaleProvider>
     </VStack>
   );
