@@ -79,7 +79,10 @@
     "debt": {
       "outstanding": "Pendiente",
       "term": "Plazo",
-      "interest": "Tasa de interés"
+      "interest": "Tasa de interés",
+      "title": "Deuda",
+      "total": "Deuda total",
+      "avg_interest": "Interés medio"
     },
     "view": {
       "title": "Usuario"

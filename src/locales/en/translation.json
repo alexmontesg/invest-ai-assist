@@ -79,7 +79,10 @@
     "debt": {
       "outstanding": "Outstanding",
       "term": "Remaining Term",
-      "interest": "Interest Rate"
+      "interest": "Interest Rate",
+      "title": "Debt",
+      "total": "Total Debt",
+      "avg_interest": "Average Interest"
     },
     "view": {
       "title": "User"

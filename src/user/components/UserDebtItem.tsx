@@ -7,7 +7,6 @@ import {
   Flex,
   FormatNumber,
   HStack,
-  LocaleProvider,
   ProgressCircle,
 } from '@chakra-ui/react';
 
@@ -19,7 +18,7 @@ type DebtItemProps = {
 
 function UserDebtItem({ item }: DebtItemProps) {
   const percentagePaid = (1 - item.outstanding.value / item.total.value) * 100;
-  const { t, i18n } = useTranslation('translation', {
+  const { t } = useTranslation('translation', {
     keyPrefix: 'user.debt',
   });
 
@@ -44,21 +43,19 @@ function UserDebtItem({ item }: DebtItemProps) {
             <DataList.Item>
               <DataList.ItemLabel>{t('outstanding')}</DataList.ItemLabel>
               <DataList.ItemValue>
-                <LocaleProvider locale={i18n.language}>
-                  <Flex>
-                    <FormatNumber
-                      value={item.outstanding.value}
-                      style="currency"
-                      currency={item.outstanding.currencyCode}
-                    />{' '}
-                    /{' '}
-                    <FormatNumber
-                      value={item.total.value}
-                      style="currency"
-                      currency={item.total.currencyCode}
-                    />
-                  </Flex>
-                </LocaleProvider>
+                <Flex>
+                  <FormatNumber
+                    value={item.outstanding.value}
+                    style="currency"
+                    currency={item.outstanding.currencyCode}
+                  />{' '}
+                  /{' '}
+                  <FormatNumber
+                    value={item.total.value}
+                    style="currency"
+                    currency={item.total.currencyCode}
+                  />
+                </Flex>
               </DataList.ItemValue>
             </DataList.Item>
 
@@ -80,7 +77,11 @@ function UserDebtItem({ item }: DebtItemProps) {
             <DataList.Item>
               <DataList.ItemLabel>{t('interest')}</DataList.ItemLabel>
               <DataList.ItemValue>
-                <FormatNumber value={item.interestRate} style="percent" />
+                <FormatNumber
+                  value={item.interestRate}
+                  style="percent"
+                  maximumFractionDigits={2}
+                />
               </DataList.ItemValue>
             </DataList.Item>
           </DataList.Root>

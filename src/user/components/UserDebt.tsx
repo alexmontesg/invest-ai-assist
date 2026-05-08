@@ -1,25 +1,75 @@
 import { memo, useState } from 'react';
-import { Container, List } from '@chakra-ui/react';
+import {
+  DataList,
+  FormatNumber,
+  Heading,
+  List,
+  LocaleProvider,
+  VStack,
+} from '@chakra-ui/react';
+import { useTranslation } from 'react-i18next';
 
 import userDebt from '@/user/mocks/userDebt.json';
 import type { UserDebt } from '@/user/types/user';
 import UserDebtItem from '@/user/components/UserDebtItem';
+import { Money } from '@/domain/money';
 
 function UserDebt() {
   const [debt] = useState<UserDebt>(userDebt);
+  const { t, i18n } = useTranslation('translation', {
+    keyPrefix: 'user.debt',
+  });
+
+  const totalDebt = debt.items
+    .map((item) => item.outstanding)
+    .reduce(
+      (prev, curr) => Money.fromJson(prev).add(Money.fromJson(curr)).toJSON(),
+      Money.fromUnit(0, debt.items[0].outstanding.currencyCode).toJSON(),
+    );
+
+  const averageInterest =
+    debt.items
+      .map((item) => item.interestRate * item.outstanding.value)
+      .reduce((prev, curr) => prev + curr, 0) / totalDebt.value;
 
   return (
-    <Container as="section">
-      <List.Root variant="plain" gap={8}>
-        {debt.items.map((item) => {
-          return (
-            <List.Item key={item.id}>
-              <UserDebtItem item={item} />
-            </List.Item>
-          );
-        })}
-      </List.Root>
-    </Container>
+    <VStack as="section" gap={8} alignItems="start">
+      <Heading as="h2">{t('title')}</Heading>
+      <LocaleProvider locale={i18n.language}>
+        <DataList.Root orientation="horizontal">
+          <DataList.Item>
+            <DataList.ItemLabel>{t('total')}</DataList.ItemLabel>
+            <DataList.ItemValue>
+              <FormatNumber
+                value={totalDebt.value}
+                style="currency"
+                currency={totalDebt.currencyCode}
+              />
+            </DataList.ItemValue>
+          </DataList.Item>
+
+          <DataList.Item>
+            <DataList.ItemLabel>{t('avg_interest')}</DataList.ItemLabel>
+            <DataList.ItemValue>
+              <FormatNumber
+                value={averageInterest}
+                style="percent"
+                maximumFractionDigits={2}
+              />
+            </DataList.ItemValue>
+          </DataList.Item>
+        </DataList.Root>
+        <List.Root variant="plain" gap={8}>
+          {debt.items.map((item) => {
+            return (
+              <List.Item key={item.id}>
+                <UserDebtItem item={item} />
+              </List.Item>
+            );
+          })}
+        </List.Root>
+      </LocaleProvider>
+    </VStack>
   );
 }
 
