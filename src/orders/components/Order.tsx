@@ -1,4 +1,4 @@
-import { memo, useContext } from 'react';
+import { memo, useContext, type RefAttributes } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button, Card, DataList, LocaleProvider } from '@chakra-ui/react';
 import { CiTrash, CiRepeat } from 'react-icons/ci';
@@ -38,7 +38,11 @@ function OrderRow({
 
 const OrderRowMemo = memo(OrderRow);
 
-function Order({ order }: { order: Order }) {
+type OrderProps = RefAttributes<HTMLDivElement> & {
+  order: Order;
+};
+
+function Order({ order, ref }: OrderProps) {
   const { t, i18n } = useTranslation('translation', {
     keyPrefix: 'orders.order',
   });
@@ -57,7 +61,7 @@ function Order({ order }: { order: Order }) {
   };
 
   return (
-    <Card.Root>
+    <Card.Root ref={ref}>
       <Card.Header>
         {isOnWatchlist ? <FavouriteMarker /> : null}
         <Card.Title>{t(`title.${order.type}`, { ...order })}</Card.Title>

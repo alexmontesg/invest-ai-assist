@@ -13,4 +13,6 @@ export async function bootstrap<T>(
   if (data) {
     dispatch(hydrate(data));
   }
+
+  return data;
 }

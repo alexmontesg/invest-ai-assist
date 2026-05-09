@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, type Mock } from 'vitest';
+import { describe, it, expect, vi, beforeAll, type Mock } from 'vitest';
 import { screen } from '@testing-library/react';
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
@@ -8,6 +8,18 @@ import OrderList from './OrderList';
 import { renderWithProviders, type TestStoreState } from '@/orders/test/utils';
 import type { Order } from '@/orders/types/order';
 import type { SerializedMoney } from '@/domain/money';
+
+// IntersectionObserver is not available in jsdom
+beforeAll(() => {
+  vi.stubGlobal(
+    'IntersectionObserver',
+    class {
+      observe = vi.fn();
+      disconnect = vi.fn();
+      unobserve = vi.fn();
+    },
+  );
+});
 
 // Initialize i18n for tests
 i18n.use(initReactI18next).init({

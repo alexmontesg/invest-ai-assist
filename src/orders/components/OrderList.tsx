@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import { Box, Flex } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 
@@ -8,11 +9,29 @@ import useOrders from '@/orders/hooks/useOrders';
 import { bootstrapOrders } from '@/orders/state/bootstrap';
 
 function OrderListContents({ isLoading }: { isLoading: boolean }) {
+  const sentinel = useRef<HTMLDivElement | null>(null);
+
+  const { orders, handleIntersection } = useOrders();
+  const handleIntersectionRef = useRef(handleIntersection);
+  handleIntersectionRef.current = handleIntersection;
+
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        handleIntersectionRef.current();
+      }
+    });
+
+    if (sentinel.current) {
+      observer.observe(sentinel.current);
+    }
+
+    return () => observer.disconnect();
+  }, [orders]);
+
   if (isLoading) {
     return <OrdersSkeleton />;
   }
-
-  const { orders } = useOrders();
 
   if (!orders?.length) {
     return <EmptyOrders />;
@@ -20,8 +39,12 @@ function OrderListContents({ isLoading }: { isLoading: boolean }) {
 
   return (
     <Flex direction="column" gap={4}>
-      {orders.map((order) => (
-        <Order key={order.id} order={order} />
+      {orders.map((order, idx) => (
+        <Order
+          key={order.id}
+          order={order}
+          ref={idx === orders.length - 1 ? sentinel : null}
+        />
       ))}
     </Flex>
   );

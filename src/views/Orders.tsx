@@ -14,7 +14,7 @@ export default function OrdersView() {
         {t('title')}
       </Heading>
 
-      <Grid templateColumns="3fr 1fr">
+      <Grid templateColumns={{ base: '1fr', md: '3fr 1fr' }}>
         <GridItem as="main">
           <VStack align="stretch" mb="12">
             <OrderForm />
